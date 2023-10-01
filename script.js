@@ -1,17 +1,22 @@
 //your code here
-const divs = document.querySelectorAll('.image');
+const images = document.querySelectorAll('.image');
 
-for (const div of divs) {
-  div.addEventListener('dragstart', (e) => {
-    e.dataTransfer.setData('image', div.id);
+let draggedImage = null;
+
+images.forEach(image => {
+  image.addEventListener('dragstart', () => {
+    draggedImage = image;
   });
 
-  div.addEventListener('dragover', (e) => {
+  image.addEventListener('dragover', e => {
     e.preventDefault();
   });
 
-  div.addEventListener('drop', (e) => {
-    const imageId = e.dataTransfer.getData('image');
-    const div1;
+  image.addEventListener('drop', () => {
+    if (draggedImage !== image) {
+      const temp = image.innerHTML;
+      image.innerHTML = draggedImage.innerHTML;
+      draggedImage.innerHTML = temp;
+    }
   });
-}
+});
